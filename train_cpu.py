@@ -31,7 +31,7 @@ config = {
         "absolute": False,
         "order": "sorted",
     },
-    "duration": 30000,
+    "duration": 100,
 }
 
 '''

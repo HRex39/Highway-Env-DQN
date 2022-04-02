@@ -28,14 +28,14 @@ config = {
         "absolute": False,
         "order": "sorted",
     },
-    "duration": 30000,
+    "duration": 100,
 }
 
 if __name__ == '__main__':
     env = gym.make('highway-fast-v0')
     env.configure(config)
     dqn = DoubleDQN(is_train=False)
-    dqn.load("./check_points.tar")
+    dqn.load("./6999.tar")
     print('--------------\nLoading experience...\n--------------')
 
     for i_episode in range(100000):
@@ -50,7 +50,7 @@ if __name__ == '__main__':
             # choose action
             action = action_index
 
-            print('\r' + "action: " + action, end='', flush=True)
+            # print('\r' + "action: " + str(action), end='', flush=True)
             # obtain the reward and next state and some other information
             s_, reward, done, info = env.step(action)
             # slice s and s_
@@ -58,7 +58,7 @@ if __name__ == '__main__':
             s_ = np.squeeze(np.reshape(s_,(1,dqn.N_STATES)))
             total_reward += reward
             s = s_  
-            if done and info["arrive_dest"]:
+            if done :
                 print('\nEp: ', i_episode, ' |', 'Ep_r: ', round(total_reward, 2))
                 break
 
