@@ -13,7 +13,7 @@ import torch.nn.functional as F
 
 # Net Params
 N_ACTIONS = 5 # Action Space is an array[steering, acceleration] like [-0.5,0.5] which need to be discrete
-N_STATES = 35 # observation dim
+N_STATES = 25 # observation dim
 N_LAYERS = 256
 
 class DuelDQN_Net(nn.Module):

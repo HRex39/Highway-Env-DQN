@@ -21,7 +21,6 @@ config = {
     "observation": {
         "type": "Kinematics",
         "vehicles_count": 5,
-        "features": ["presence", "x", "y", "vx", "vy", "cos_h", "sin_h"],
         "features_range": {
             "x": [-100, 100],
             "y": [-100, 100],
