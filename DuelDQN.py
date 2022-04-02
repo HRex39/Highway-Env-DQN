@@ -21,13 +21,13 @@ from torch.utils.tensorboard import SummaryWriter
 import numpy as np
 
 # Hyper Parameters
-BATCH_SIZE = 64
+BATCH_SIZE = 32
 LR = 0.001                   # learning rate
 EPSILON = 0.1               # greedy policy
 SETTING_TIMES = 500         # greedy setting times 
 GAMMA = 0.9                 # reward discount
 TARGET_REPLACE_ITER = 1000   # target update frequency
-MEMORY_CAPACITY = 50000
+MEMORY_CAPACITY = 2000
 
 class DuelDQN(object):
     def __init__(self, is_train=True):

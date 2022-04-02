@@ -24,7 +24,7 @@ EPSILON = 0.1               # greedy policy
 SETTING_TIMES = 500         # greedy setting times 
 GAMMA = 0.9                 # reward discount
 TARGET_REPLACE_ITER = 1000   # target update frequency
-MEMORY_CAPACITY = 20000
+MEMORY_CAPACITY = 2000
 
 class DQN(object):
     def __init__(self, is_train=True):

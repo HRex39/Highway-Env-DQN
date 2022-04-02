@@ -76,7 +76,7 @@ if __name__ == '__main__':
             reward_counter += 1
             
             # if the experience repaly buffer is filled, 
-            # DQN begins to learn or update its parameters.       
+            # DQN begins to learn or update its parameters.    
             if dqn.memory_counter > dqn.MEMORY_CAPACITY:
                 bool_learning = True
                 dqn.learn()
