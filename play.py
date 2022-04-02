@@ -18,7 +18,6 @@ config = {
     "observation": {
         "type": "Kinematics",
         "vehicles_count": 5,
-        "features": ["presence", "x", "y", "vx", "vy", "cos_h", "sin_h"],
         "features_range": {
             "x": [-100, 100],
             "y": [-100, 100],
@@ -35,7 +34,7 @@ if __name__ == '__main__':
     env = gym.make('highway-fast-v0')
     env.configure(config)
     dqn = DoubleDQN(is_train=False)
-    dqn.load("./6999.tar")
+    dqn.load("./77check_points.tar")
     print('--------------\nLoading experience...\n--------------')
 
     for i_episode in range(100000):

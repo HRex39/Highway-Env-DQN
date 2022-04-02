@@ -53,6 +53,7 @@ if __name__ == '__main__':
         total_action_value = 0
         action_counter = 1 
         reward_counter = 0
+        bool_learning = False
         while True:
             # take action based on the current state
             action_index, action_value = dqn.choose_action(s)
@@ -77,10 +78,11 @@ if __name__ == '__main__':
             # if the experience repaly buffer is filled, 
             # DQN begins to learn or update its parameters.       
             if dqn.memory_counter > dqn.MEMORY_CAPACITY:
+                bool_learning = True
                 dqn.learn()
             if done:
                 # if game is over, then skip the while loop.
-                if best_reward <= total_reward:
+                if best_reward <= total_reward and bool_learning:
                     best_reward = total_reward
                     dqn.save("./"+str(round(best_reward))+"check_points.tar")
                 if i_episode % 1000 == 999:
