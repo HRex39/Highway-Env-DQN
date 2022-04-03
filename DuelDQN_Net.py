@@ -40,10 +40,10 @@ class DuelDQN_Net(nn.Module):
         x = F.relu(x) # ReLU(Rectified Linear Unit,修正线性单元),取正
         # A_Net
         x_A_Net = self.A_Net(x)
-        x_A_Net = F.relu(x_A_Net)
+        # x_A_Net = F.relu(x_A_Net) # TODO:need RELU?
         # V_Net
         x_V_Net = self.V_Net(x)
-        x_V_Net = F.relu(x_V_Net)
+        # x_V_Net = F.relu(x_V_Net)
         
         # Q = V(s) + A(s,a) - mean( A(s,a) )
         x_A_Net_Mean = torch.mean(x_A_Net, dim=1, keepdim=True)

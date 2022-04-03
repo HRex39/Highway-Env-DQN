@@ -33,8 +33,8 @@ config = {
 if __name__ == '__main__':
     env = gym.make('highway-fast-v0')
     env.configure(config)
-    dqn = DoubleDQN(is_train=False)
-    dqn.load("./77check_points.tar")
+    dqn = DuelDQN(is_train=False)
+    dqn.load("./17999.tar")
     print('--------------\nLoading experience...\n--------------')
 
     for i_episode in range(100000):

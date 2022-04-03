@@ -39,7 +39,7 @@ config = {
 if __name__ == '__main__':
     env = gym.make('highway-fast-v0')
     env.configure(config)
-    dqn = DoubleDQN(is_train=True)
+    dqn = DuelDQN(is_train=True)
     print('--------------\nCollecting experience...\n--------------')
     best_reward = 0
 

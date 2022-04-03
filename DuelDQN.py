@@ -87,15 +87,10 @@ class DuelDQN(object):
         b_r = torch.FloatTensor(b_memory[:, self.eval_net.N_STATES+1:self.eval_net.N_STATES+2])
         b_s_ = torch.FloatTensor(b_memory[:, -self.eval_net.N_STATES:])
 
-        # using DDQN Policy
+        # q_eval w.r.t the action in experience
         q_eval = self.eval_net(b_s).gather(1, b_a)  # dim=1是横向的意思 shape (batch, 1)
-        q_eval_max_a = self.eval_net(b_s_).detach()     # detach from graph, don't backpropagate
-        # q_eval_max_a.max(1) returns the max value along the axis=1 and its corresponding index
-        eval_max_a_index = q_eval_max_a.max(1)[1].view(BATCH_SIZE, 1)
-
-        q_next = self.target_net(b_s_).gather(1, eval_max_a_index)
-
-        q_target = b_r + GAMMA * q_next   # shape (batch, 1)
+        q_next = self.target_net(b_s_).detach()     # detach from graph, don't backpropagate
+        q_target = b_r + GAMMA * q_next.max(1)[0].view(BATCH_SIZE, 1)   # shape (batch, 1)
         loss = self.loss_func(q_eval, q_target)
 
         self.optimizer.zero_grad()
