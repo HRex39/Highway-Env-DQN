@@ -34,13 +34,13 @@ if __name__ == '__main__':
     env = gym.make('highway-fast-v0')
     env.configure(config)
     dqn = DuelDQN(is_train=False)
-    dqn.load("./17999.tar")
+    dqn.load("./94999.tar")
     print('--------------\nLoading experience...\n--------------')
 
+    total_reward = 0
     for i_episode in range(100000):
         s = env.reset()
         s = np.squeeze(np.reshape(s,(1,dqn.N_STATES)))
-        total_reward = 0
 
         while True:
             env.render()
@@ -58,6 +58,6 @@ if __name__ == '__main__':
             total_reward += reward
             s = s_  
             if done :
-                print('\nEp: ', i_episode, ' |', 'Ep_r: ', round(total_reward, 2))
+                print( 'Ep: ', i_episode, ' |', 'Ave_r:', round(total_reward/(1+i_episode),2) )
                 break
 

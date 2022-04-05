@@ -31,6 +31,7 @@ config = {
         "order": "sorted",
     },
     "duration": 100,
+    # "collision_reward": -1, # TODO:maybe needs to change 
 }
 
 '''
