@@ -29,10 +29,13 @@ GAMMA = 0.9                 # reward discount
 TARGET_REPLACE_ITER = 1000   # target update frequency
 MEMORY_CAPACITY = 2000
 
+# GPU device
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 class DoubleDQN(object):
     def __init__(self, is_train=True):
         self.IS_TRAIN = is_train
-        self.eval_net, self.target_net = DoubleDQN_Net(), DoubleDQN_Net()
+        self.eval_net, self.target_net = DoubleDQN_Net().to(device), DoubleDQN_Net().to(device)
         self.learn_step_counter = 0     # for target updating
         self.memory_counter = 0         # for storing memory
         # (s,a,r,s_)一共 2 * state + 2 个列,因为动作是唯一确定的
@@ -54,10 +57,10 @@ class DoubleDQN(object):
     # epsilon greedy
     def choose_action(self, x):
 
-        x = torch.unsqueeze(torch.FloatTensor(x), 0) # add 1 dimension to input state x
+        x = torch.unsqueeze(torch.FloatTensor(x), 0).to(device) # add 1 dimension to input state x
 
         if np.random.uniform() < self.EPSILON: # greedy
-            action_value = self.eval_net.forward(x)
+            action_value = self.eval_net.forward(x).cpu()
             # torch.max() 函数会返回两个tensor，第一个tensor是每行的最大值；第二个tensor是每行最大值的索引。
             action_index = torch.max(action_value, 1)[1].data.numpy()[0] # 此时已经转变为index的形式
             action_max_value = torch.max(action_value, 1)[0].data.numpy()[0]
@@ -83,10 +86,10 @@ class DoubleDQN(object):
         # sample batch transitions
         sample_index = np.random.choice(MEMORY_CAPACITY, BATCH_SIZE)
         b_memory = self.memory[sample_index, :]
-        b_s = torch.FloatTensor(b_memory[:, :self.eval_net.N_STATES])
-        b_a = torch.LongTensor(b_memory[:, self.eval_net.N_STATES:self.eval_net.N_STATES+1].astype(int))
-        b_r = torch.FloatTensor(b_memory[:, self.eval_net.N_STATES+1:self.eval_net.N_STATES+2])
-        b_s_ = torch.FloatTensor(b_memory[:, -self.eval_net.N_STATES:])
+        b_s = torch.FloatTensor(b_memory[:, :self.eval_net.N_STATES]).to(device)
+        b_a = torch.LongTensor(b_memory[:, self.eval_net.N_STATES:self.eval_net.N_STATES+1].astype(int)).to(device)
+        b_r = torch.FloatTensor(b_memory[:, self.eval_net.N_STATES+1:self.eval_net.N_STATES+2]).to(device)
+        b_s_ = torch.FloatTensor(b_memory[:, -self.eval_net.N_STATES:]).to(device)
 
         # diff between DQN
         q_eval = self.eval_net(b_s).gather(1, b_a)  # dim=1是横向的意思 shape (batch, 1)
@@ -104,7 +107,7 @@ class DoubleDQN(object):
         self.optimizer.step()
         if (self.IS_TRAIN):
             if (self.learn_step_counter % 100000 == 0):
-                self.writer.add_scalar('Loss', loss, self.learn_step_counter)
+                self.writer.add_scalar('Loss', loss.cpu(), self.learn_step_counter)
 
     def save(self,path):
         torch.save(self.eval_net.state_dict(), path)

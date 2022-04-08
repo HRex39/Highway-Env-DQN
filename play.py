@@ -28,6 +28,7 @@ config = {
         "order": "sorted",
     },
     "duration": 100,
+    "collision_reward": -3, # needs to change 
 }
 
 if __name__ == '__main__':
