@@ -13,6 +13,9 @@ from DQN import *
 from DoubleDQN import *
 from DuelDQN import *
 
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
 # config
 config = {
     "observation": {
@@ -35,7 +38,7 @@ if __name__ == '__main__':
     env = gym.make('highway-fast-v0')
     env.configure(config)
     dqn = DuelDQN(is_train=False)
-    dqn.load("./94999.tar")
+    dqn.load("./91check_points.tar")
     print('--------------\nLoading experience...\n--------------')
 
     total_reward = 0

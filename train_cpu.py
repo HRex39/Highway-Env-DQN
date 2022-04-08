@@ -16,6 +16,9 @@ from DoubleDQN import *
 from DuelDQN import *
 import numpy as np
 
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
 # config
 config = {
     "observation": {
