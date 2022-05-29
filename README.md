@@ -9,7 +9,7 @@ Highway-Env Agent using DQN
 ## Usage
 1. train
 ```
-python3 train.py
+python3 train_cpu.py
 tensorboard --logdir=./log --port <your port>
 ```
 
